@@ -172,7 +172,13 @@ body {
     0 32px 64px rgba(204,210,218,0.07);
   max-width: 100%;
 }
-.shot-back { position: relative; width: 100%; transform: rotate(-1deg); }
+.shot-back {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1260 / 793;
+  object-fit: cover;
+  object-position: top;
+}
 .shot-front-tl { width: 46%; left: -4%; top: -8%; transform: rotate(-3deg); }
 .shot-front-br { width: 46%; right: -4%; bottom: -10%; transform: rotate(2deg); }
 @media (max-width: 991px) {
