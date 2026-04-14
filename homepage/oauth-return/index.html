@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Returning to qifix...</title>
+
+  <link rel="icon" type="image/png" href="/images/qifix-logo-small.png">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Archivo:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bs-primary: #506fd9;
+      --qx-dark: #212830;
+      --qx-text: #41505f;
+      --qx-muted: #6e7985;
+      --qx-border: #e2e5ec;
+      --qx-surface-2: #f8f9fc;
+      --qx-surface-3: #f3f5f9;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: 'Open Sans', -apple-system, system-ui, sans-serif;
+      color: var(--qx-text);
+      background:
+        radial-gradient(1100px 500px at 90% -10%, rgba(80,111,217,0.10), transparent 60%),
+        radial-gradient(900px 500px at -10% 0%, rgba(133,182,255,0.10), transparent 60%),
+        #fbfcfe;
+    }
+    .wrap {
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+    .card {
+      max-width: 480px;
+      width: 100%;
+      background: #fff;
+      border: 1px solid var(--qx-border);
+      border-radius: 10px;
+      padding: 2rem 1.75rem;
+      box-shadow:
+        0 1px 2px rgba(204,210,218,0.07),
+        0 8px 20px rgba(80,111,217,0.08),
+        0 24px 60px rgba(80,111,217,0.08);
+      text-align: center;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .brand img { height: 32px; width: auto; display: block; }
+    .brand span {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: var(--qx-dark);
+    }
+    h1 {
+      color: var(--qx-dark);
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      margin: 0 0 0.75rem;
+    }
+    p { margin: 0 0 0.9rem; line-height: 1.6; font-size: 0.95rem; }
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid var(--qx-surface-3);
+      border-top-color: var(--bs-primary);
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .fallback {
+      display: none;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--qx-border);
+    }
+    .fallback.show { display: block; }
+    .btn {
+      display: inline-block;
+      padding: 0.55rem 1rem;
+      background: var(--bs-primary);
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .btn:hover { background: #4059ae; }
+    .small { font-size: 0.8125rem; color: var(--qx-muted); }
+    code {
+      background: var(--qx-surface-3);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.85em;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="brand">
+        <img src="/images/qifix-logo-small.png" alt="qifix">
+        <span>qifix</span>
+      </div>
+      <div class="spinner" aria-hidden="true"></div>
+      <h1>Returning you to qifix&hellip;</h1>
+      <p>Your bank sent you back. We're handing the result to the qifix app on your Mac.</p>
+      <div class="fallback" id="fallback">
+        <p>If the app didn't open automatically, launch qifix and try connecting again, or <a class="btn" id="fallback-link" href="#">open qifix now</a>.</p>
+        <p class="small">Trouble? macOS System Settings &rarr; Default Apps &rarr; make sure <code>qifix://</code> links open qifix.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+      var params = new URLSearchParams(window.location.search);
+      var oauthStateId = params.get('oauth_state_id') || '';
+      var target = 'qifix://oauth-return?oauth_state_id=' + encodeURIComponent(oauthStateId);
+
+      var fallbackLink = document.getElementById('fallback-link');
+      var fallback = document.getElementById('fallback');
+      fallbackLink.href = target;
+
+      // Hand control to the OS-registered protocol handler for qifix://
+      window.location.href = target;
+
+      // Show manual-open affordance if the app hasn't taken focus within 2.5 seconds.
+      setTimeout(function () { fallback.classList.add('show'); }, 2500);
+    })();
+  </script>
+
+  <noscript>
+    <p style="text-align:center;margin:2rem;">
+      Enable JavaScript and reload this page, or open the qifix app and try connecting again.
+    </p>
+  </noscript>
+</body>
+</html>
