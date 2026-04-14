@@ -32,3 +32,9 @@ homepage/security/
 
 # Generated launcher .app (local, user-specific paths inside)
 qifix.app/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
